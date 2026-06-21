@@ -1,0 +1,10 @@
+{
+  "permissions": {
+    "allow": [
+      "PowerShell(Copy-Item \"c:\\\\Tracker\\\\backend\\\\.env.example\" \"c:\\\\Tracker\\\\backend\\\\.env\")",
+      "Bash(Get-ChildItem -Path \"c:\\\\Tracker\" -Recurse -Force)",
+      "Bash(Select-Object FullName)",
+      "Bash(python -c ' *)"
+    ]
+  }
+}

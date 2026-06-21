@@ -11,7 +11,7 @@ type Tab = 'dashboard' | 'earnings' | 'subscriptions' | 'spending'
 const tab = ref<Tab>('dashboard')
 const { toast, loadAll } = useFinance()
 
-onMounted(loadAll)
+onMounted(() => loadAll())
 </script>
 
 <template>

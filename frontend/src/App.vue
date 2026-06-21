@@ -40,13 +40,8 @@ onMounted(() => loadAll())
     <header class="bg-white shadow-lg px-4 md:px-6 py-4 sticky top-0 z-40">
       <div class="max-w-3xl lg:max-w-6xl mx-auto w-full flex items-center justify-between">
         <div class="flex items-center gap-2.5">
-          <!-- Logo mark -->
-          <div class="w-7 h-7 bg-brand rounded-lg flex items-center justify-center shrink-0">
-            <svg class="w-4 h-4 text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-              <line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 000 7h5a3.5 3.5 0 010 7H6"/>
-            </svg>
-          </div>
-          <span class="text-lg font-bold tracking-tight text-dark">Finance</span>
+          <img src="/logo.png" alt="Zync Logo" class="w-8 h-8 rounded-lg shrink-0" />
+          <span class="text-base font-extrabold tracking-tight text-brand">Spend Wisely!</span>
         </div>
 
         <!-- Desktop nav -->

@@ -133,7 +133,7 @@ async function confirmDelete(id: string): Promise<void> {
     <div v-else class="flex flex-col gap-6">
       <div v-for="group in grouped" :key="group.date">
         <p class="text-xs font-semibold text-dark/30 uppercase tracking-widest mb-2">{{ fmtDate(group.date) }}</p>
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-2">
+        <div class="grid grid-cols-1 gap-2">
           <div v-for="s in group.items" :key="s.id"
             class="bg-white border border-light rounded-xl pl-4 pr-3 py-3.5 shadow-sm"
           >

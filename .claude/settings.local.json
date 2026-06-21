@@ -4,7 +4,11 @@
       "PowerShell(Copy-Item \"c:\\\\Tracker\\\\backend\\\\.env.example\" \"c:\\\\Tracker\\\\backend\\\\.env\")",
       "Bash(Get-ChildItem -Path \"c:\\\\Tracker\" -Recurse -Force)",
       "Bash(Select-Object FullName)",
-      "Bash(python -c ' *)"
+      "Bash(python -c ' *)",
+      "Bash(git pull *)",
+      "Bash(git push *)",
+      "Bash(git add *)",
+      "Bash(git commit *)"
     ]
   }
 }

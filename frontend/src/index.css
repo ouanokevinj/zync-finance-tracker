@@ -13,6 +13,11 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
+/* SF Pro on all iOS browsers (Safari, Chrome, Firefox) — everything else keeps Inter */
+.ios body {
+  font-family: -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
+}
+
 /* Custom scrollbar — subtle, premium */
 ::-webkit-scrollbar { width: 4px; height: 4px; }
 ::-webkit-scrollbar-track { background: transparent; }

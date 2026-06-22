@@ -124,7 +124,7 @@ onMounted(() => loadAll())
       <button
         role="tab" :aria-selected="tab === 'spending'" @click="tab = 'spending'"
         :class="['flex flex-col items-center gap-0.5 py-2 text-[10px] font-medium transition-colors',
-          tab === 'spending' ? 'text-amber-500' : 'text-dark/40 hover:text-dark/70']"
+          tab === 'spending' ? 'text-brand' : 'text-dark/40 hover:text-dark/70']"
       >
         <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
           <circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/>

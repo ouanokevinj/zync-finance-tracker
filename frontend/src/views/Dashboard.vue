@@ -179,7 +179,7 @@ const groupedLog = computed(() => {
         </div>
         <div class="bg-white border border-light rounded-xl p-3 md:p-4 shadow-sm min-h-20 md:min-h-24 flex flex-col justify-between">
           <p class="text-[10px] md:text-xs font-medium text-dark/40 uppercase tracking-widest">Spending</p>
-          <p class="font-mono text-sm md:text-base font-bold text-amber-600 truncate">{{ fmtCurrency(summary.total_spending) }}</p>
+          <p class="font-mono text-sm md:text-base font-bold text-brand truncate">{{ fmtCurrency(summary.total_spending) }}</p>
         </div>
       </div>
 
@@ -227,20 +227,20 @@ const groupedLog = computed(() => {
           leave-to-class="opacity-0 max-h-0"
         >
           <form v-if="quickMode === 'earning'" @submit.prevent="quickAddEarning"
-            class="flex flex-col gap-2 p-4 rounded-xl bg-emerald-50 border border-emerald-100">
+            class="flex flex-col gap-2 p-4 rounded-xl bg-white border border-light shadow-sm">
             <div class="flex gap-2">
               <div class="flex-1">
                 <label for="qa-e-amount" class="sr-only">Amount</label>
                 <input id="qa-e-amount" v-model="earningForm.amount" type="number" step="0.01" min="0"
                   placeholder="Amount" required
-                  class="w-full px-3 py-2 rounded-lg border border-emerald-200 bg-white text-sm font-mono focus:ring-2 focus:ring-emerald-500 focus:outline-none"
+                  class="w-full px-3 py-2 rounded-lg bg-light border-0 text-sm font-mono focus:ring-2 focus:ring-emerald-500 focus:outline-none"
                 />
               </div>
               <div class="flex-[2]">
                 <label for="qa-e-source" class="sr-only">Source</label>
                 <input id="qa-e-source" v-model="earningForm.source" type="text"
                   placeholder="Source" required
-                  class="w-full px-3 py-2 rounded-lg border border-emerald-200 bg-white text-sm focus:ring-2 focus:ring-emerald-500 focus:outline-none"
+                  class="w-full px-3 py-2 rounded-lg bg-light border-0 text-sm focus:ring-2 focus:ring-emerald-500 focus:outline-none"
                 />
               </div>
             </div>
@@ -248,7 +248,7 @@ const groupedLog = computed(() => {
               <div class="flex-1">
                 <label for="qa-e-date" class="sr-only">Date</label>
                 <input id="qa-e-date" v-model="earningForm.date" type="date" required
-                  class="w-full px-3 py-2 rounded-lg border border-emerald-200 bg-white text-sm focus:ring-2 focus:ring-emerald-500 focus:outline-none"
+                  class="w-full px-3 py-2 rounded-lg bg-light border-0 text-sm focus:ring-2 focus:ring-emerald-500 focus:outline-none"
                 />
               </div>
               <button type="submit" :disabled="isSubmitting"
@@ -269,20 +269,20 @@ const groupedLog = computed(() => {
           leave-to-class="opacity-0 max-h-0"
         >
           <form v-if="quickMode === 'subscription'" @submit.prevent="quickAddSub"
-            class="flex flex-col gap-2 p-4 rounded-xl bg-rose-50 border border-rose-100">
+            class="flex flex-col gap-2 p-4 rounded-xl bg-white border border-light shadow-sm">
             <div class="flex gap-2">
               <div class="flex-[2]">
                 <label for="qa-s-name" class="sr-only">Name</label>
                 <input id="qa-s-name" v-model="subForm.name" type="text"
                   placeholder="Name" required
-                  class="w-full px-3 py-2 rounded-lg border border-rose-200 bg-white text-sm focus:ring-2 focus:ring-brand focus:outline-none"
+                  class="w-full px-3 py-2 rounded-lg bg-light border-0 text-sm focus:ring-2 focus:ring-brand focus:outline-none"
                 />
               </div>
               <div class="flex-1">
                 <label for="qa-s-amount" class="sr-only">Amount</label>
                 <input id="qa-s-amount" v-model="subForm.amount" type="number" step="0.01" min="0"
                   placeholder="Amount" required
-                  class="w-full px-3 py-2 rounded-lg border border-rose-200 bg-white text-sm font-mono focus:ring-2 focus:ring-brand focus:outline-none"
+                  class="w-full px-3 py-2 rounded-lg bg-light border-0 text-sm font-mono focus:ring-2 focus:ring-brand focus:outline-none"
                 />
               </div>
             </div>
@@ -290,7 +290,7 @@ const groupedLog = computed(() => {
               <div class="flex-1">
                 <label for="qa-s-date" class="sr-only">Start date</label>
                 <input id="qa-s-date" v-model="subForm.date_started" type="date" required
-                  class="w-full px-3 py-2 rounded-lg border border-rose-200 bg-white text-sm focus:ring-2 focus:ring-brand focus:outline-none"
+                  class="w-full px-3 py-2 rounded-lg bg-light border-0 text-sm focus:ring-2 focus:ring-brand focus:outline-none"
                 />
               </div>
               <button type="submit" :disabled="isSubmitting"
@@ -311,20 +311,20 @@ const groupedLog = computed(() => {
           leave-to-class="opacity-0 max-h-0"
         >
           <form v-if="quickMode === 'spending'" @submit.prevent="quickAddSpending"
-            class="flex flex-col gap-2 p-4 rounded-xl bg-amber-50 border border-amber-100">
+            class="flex flex-col gap-2 p-4 rounded-xl bg-white border border-light shadow-sm">
             <div class="flex gap-2">
               <div class="flex-[2]">
                 <label for="qa-sp-desc" class="sr-only">Description</label>
                 <input id="qa-sp-desc" v-model="spendingForm.description" type="text"
                   placeholder="Description" required
-                  class="w-full px-3 py-2 rounded-lg border border-amber-200 bg-white text-sm focus:ring-2 focus:ring-amber-500 focus:outline-none"
+                  class="w-full px-3 py-2 rounded-lg bg-light border-0 text-sm focus:ring-2 focus:ring-amber-500 focus:outline-none"
                 />
               </div>
               <div class="flex-1">
                 <label for="qa-sp-amount" class="sr-only">Amount</label>
                 <input id="qa-sp-amount" v-model="spendingForm.amount" type="number" step="0.01" min="0"
                   placeholder="Amount" required
-                  class="w-full px-3 py-2 rounded-lg border border-amber-200 bg-white text-sm font-mono focus:ring-2 focus:ring-amber-500 focus:outline-none"
+                  class="w-full px-3 py-2 rounded-lg bg-light border-0 text-sm font-mono focus:ring-2 focus:ring-amber-500 focus:outline-none"
                 />
               </div>
             </div>
@@ -332,7 +332,7 @@ const groupedLog = computed(() => {
               <div class="flex-1">
                 <label for="qa-sp-date" class="sr-only">Date</label>
                 <input id="qa-sp-date" v-model="spendingForm.date" type="date" required
-                  class="w-full px-3 py-2 rounded-lg border border-amber-200 bg-white text-sm focus:ring-2 focus:ring-amber-500 focus:outline-none"
+                  class="w-full px-3 py-2 rounded-lg bg-light border-0 text-sm focus:ring-2 focus:ring-amber-500 focus:outline-none"
                 />
               </div>
               <button type="submit" :disabled="isSubmitting"
@@ -391,12 +391,12 @@ const groupedLog = computed(() => {
                 v-for="entry in group.entries"
                 :key="entry.id + entry.type"
                 :class="[
-                  'rounded-xl p-4 flex items-center justify-between gap-4',
+                  'rounded-xl p-4 flex items-center justify-between gap-4 bg-white shadow-sm border border-light border-l-4',
                   entry.type === 'earning'
-                    ? 'bg-gradient-to-br from-emerald-50 to-green-100'
+                    ? 'border-l-emerald-500'
                     : entry.type === 'subscription'
-                      ? 'bg-gradient-to-br from-rose-50 to-red-100'
-                      : 'bg-gradient-to-br from-amber-50 to-yellow-100',
+                      ? 'border-l-brand'
+                      : 'border-l-amber-500',
                 ]"
               >
                 <div class="min-w-0">

@@ -217,32 +217,27 @@ async function confirmDelete(id: string): Promise<void> {
 
     <!-- Mobile modal -->
     <Transition enter-active-class="transition-all duration-200" leave-active-class="transition-all duration-150" enter-from-class="opacity-0" leave-to-class="opacity-0">
-      <div v-if="showModal" class="md:hidden fixed inset-0 z-50 bg-black/30 flex items-end" @click.self="showModal = false">
+      <div v-if="showModal" class="md:hidden fixed inset-0 z-50 bg-black/50 backdrop-blur-sm flex items-end" @click.self="showModal = false">
         <div class="w-full bg-white rounded-t-2xl shadow-xl px-5 pt-5 pb-10">
-          <div class="w-10 h-1 bg-dark/10 rounded-full mx-auto mb-5"></div>
-          <div class="flex items-center justify-between mb-6">
-            <h2 class="text-xl font-bold tracking-tight">Add Subscription</h2>
-            <button @click="showModal = false" class="text-dark/30 hover:text-dark p-1 rounded-lg">
-              <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
-            </button>
-          </div>
+          <div class="w-10 h-1 bg-dark/20 rounded-full mx-auto mb-5"></div>
+          <h2 class="text-xl font-bold tracking-tight text-center mb-6">Add Subscription</h2>
           <form @submit.prevent="add" class="flex flex-col gap-4">
             <div>
               <label class="block text-xs font-medium text-dark/40 uppercase tracking-widest mb-1.5">Name</label>
               <input v-model="form.name" type="text" placeholder="e.g. Netflix" required
-                class="w-full px-4 py-3 rounded-xl border border-light bg-white text-base focus:ring-2 focus:ring-brand focus:outline-none"
+                class="w-full px-4 py-3 rounded-xl bg-light text-base focus:ring-2 focus:ring-brand focus:outline-none"
               />
             </div>
             <div>
               <label class="block text-xs font-medium text-dark/40 uppercase tracking-widest mb-1.5">Amount</label>
               <input v-model="form.amount" type="number" step="0.01" min="0" placeholder="0.00" required
-                class="w-full px-4 py-3 rounded-xl border border-light bg-white text-base font-mono focus:ring-2 focus:ring-brand focus:outline-none"
+                class="w-full px-4 py-3 rounded-xl bg-light text-base font-mono focus:ring-2 focus:ring-brand focus:outline-none"
               />
             </div>
             <div>
               <label class="block text-xs font-medium text-dark/40 uppercase tracking-widest mb-1.5">Start Date</label>
               <input v-model="form.date_started" type="date" required
-                class="w-full px-4 py-3 rounded-xl border border-light bg-white text-base focus:ring-2 focus:ring-brand focus:outline-none"
+                class="w-full px-4 py-3 rounded-xl bg-light text-base focus:ring-2 focus:ring-brand focus:outline-none"
               />
             </div>
             <button type="submit" :disabled="isSubmitting"

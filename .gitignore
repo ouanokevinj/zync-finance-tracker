@@ -4,12 +4,16 @@ node_modules/
 # Build output
 frontend/dist/
 frontend/.vite/
+# Stray TS->JS emit (sources are .ts/.vue; real configs live at frontend root)
+frontend/src/**/*.js
 
 # Environment & secrets
 .env
 .env.local
 .env.*.local
 backend/.env
+# One-off data migration — contains a plaintext password, completed already
+backend/migrate_user.py
 
 # Python
 __pycache__/

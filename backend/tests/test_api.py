@@ -16,6 +16,15 @@ with patch("supabase.create_client", return_value=_mock_supabase):
     main.supabase = _mock_supabase
     from main import app
 
+# Data endpoints depend on get_db (which verifies a JWT and builds an authed
+# client). Override it to hand back the mock so tests exercise the route logic
+# without real auth. Auth-specific behaviour is covered in its own tests below.
+app.dependency_overrides[main.get_db] = lambda: _mock_supabase
+
+# Rate limiting is verified manually (see plan); disable it here so repeated
+# calls in the suite don't trip the limiter.
+main.limiter.enabled = False
+
 client = TestClient(app)
 
 # ── helpers ───────────────────────────────────────────────────
@@ -311,3 +320,70 @@ class TestSummary:
         })
         r = client.get("/api/summary")
         assert round(r.json()["net"], 2) == 100.0
+
+
+# ═══════════════════════════════════════════════════════════════
+# Auth — data endpoints require a valid token
+# ═══════════════════════════════════════════════════════════════
+
+class TestAuthRequired:
+    def test_missing_token_returns_401(self):
+        """Without the get_db override, a request with no bearer token is rejected."""
+        app.dependency_overrides.pop(main.get_db, None)
+        try:
+            r = client.get("/api/earnings")
+            assert r.status_code == 401
+        finally:
+            app.dependency_overrides[main.get_db] = lambda: _mock_supabase
+
+
+# ═══════════════════════════════════════════════════════════════
+# POST /api/auth/register — input validation
+# ═══════════════════════════════════════════════════════════════
+
+class TestRegisterValidation:
+    def test_missing_email_returns_422(self):
+        r = client.post("/api/auth/register", json={"username": "kevin", "password": "supersecret"})
+        assert r.status_code == 422
+
+    def test_invalid_email_returns_422(self):
+        r = client.post("/api/auth/register", json={"email": "not-an-email", "username": "kevin", "password": "supersecret"})
+        assert r.status_code == 422
+
+    def test_short_password_returns_422(self):
+        r = client.post("/api/auth/register", json={"email": "a@b.com", "username": "kevin", "password": "short"})
+        assert r.status_code == 422
+
+    def test_bad_username_chars_returns_422(self):
+        r = client.post("/api/auth/register", json={"email": "a@b.com", "username": "has spaces!", "password": "supersecret"})
+        assert r.status_code == 422
+
+
+# ═══════════════════════════════════════════════════════════════
+# POST /api/auth/login
+# ═══════════════════════════════════════════════════════════════
+
+class TestLogin:
+    def teardown_method(self):
+        main.supabase.auth.sign_in_with_password.side_effect = None
+
+    def test_valid_credentials_return_tokens(self):
+        session = MagicMock(access_token="access-123", refresh_token="refresh-456")
+        user    = MagicMock(id="uid-1", email="a@b.com", user_metadata={"username": "kevin"})
+        main.supabase.auth.sign_in_with_password.return_value = MagicMock(session=session, user=user)
+
+        r = client.post("/api/auth/login", json={"email": "a@b.com", "password": "supersecret"})
+        assert r.status_code == 200
+        body = r.json()
+        assert body["access_token"] == "access-123"
+        assert body["refresh_token"] == "refresh-456"
+        assert body["user"]["username"] == "kevin"
+
+    def test_bad_credentials_return_401(self):
+        main.supabase.auth.sign_in_with_password.side_effect = Exception("invalid")
+        r = client.post("/api/auth/login", json={"email": "a@b.com", "password": "wrongpass"})
+        assert r.status_code == 401
+
+    def test_missing_password_returns_422(self):
+        r = client.post("/api/auth/login", json={"email": "a@b.com"})
+        assert r.status_code == 422

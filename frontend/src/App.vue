@@ -1,17 +1,26 @@
 <script setup lang="ts">
-import { ref, onMounted } from 'vue'
+import { ref, watch } from 'vue'
 import Dashboard     from './views/Dashboard.vue'
 import Earnings      from './views/Earnings.vue'
 import Subscriptions from './views/Subscriptions.vue'
 import Spending      from './views/Spending.vue'
+import Auth          from './views/auth/Auth.vue'
 import { useFinance } from './useFinance'
+import { useAuth } from './useAuth'
 
 type Tab = 'dashboard' | 'earnings' | 'subscriptions' | 'spending'
 
 const tab = ref<Tab>('dashboard')
 const { toast, loadAll } = useFinance()
+const { user, isAuthenticated, logout } = useAuth()
 
-onMounted(() => loadAll())
+/* Load data whenever we transition into an authenticated state (initial mount
+ * with a restored session, or right after login). Reset to the home tab on
+ * logout so the next sign-in starts clean. */
+watch(isAuthenticated, (authed) => {
+  if (authed) loadAll()
+  else tab.value = 'dashboard'
+}, { immediate: true })
 </script>
 
 <template>
@@ -34,7 +43,10 @@ onMounted(() => loadAll())
     </div>
   </Transition>
 
-  <div class="min-h-screen w-screen bg-gradient-to-br from-red-50 via-white to-red-100 text-dark">
+  <!-- Auth gate: show login/register until signed in -->
+  <Auth v-if="!isAuthenticated" />
+
+  <div v-else class="min-h-screen w-screen bg-gradient-to-br from-red-50 via-white to-red-100 text-dark">
 
     <!-- Header -->
     <header class="bg-white shadow-lg px-4 md:px-6 py-4 sticky top-0 z-40">
@@ -44,22 +56,37 @@ onMounted(() => loadAll())
           <span class="text-base font-extrabold tracking-tight text-brand">Spend Wisely!</span>
         </div>
 
-        <!-- Desktop nav -->
-        <nav class="hidden md:flex gap-1" role="tablist" aria-label="Main navigation">
+        <div class="flex items-center gap-2 md:gap-3">
+          <!-- Desktop nav -->
+          <nav class="hidden md:flex gap-1" role="tablist" aria-label="Main navigation">
+            <button
+              v-for="t in (['dashboard', 'earnings', 'subscriptions', 'spending'] as const)"
+              :key="t"
+              role="tab"
+              :aria-selected="tab === t"
+              @click="tab = t"
+              :class="[
+                'px-4 py-1.5 rounded-lg text-sm font-medium capitalize transition-colors',
+                tab === t ? 'bg-brand text-white' : 'text-dark/40 hover:text-dark hover:bg-dark/5',
+              ]"
+            >
+              {{ t }}
+            </button>
+          </nav>
+
+          <!-- Account + logout -->
+          <span v-if="user?.username" class="hidden lg:inline text-sm text-dark/40 ml-1">@{{ user.username }}</span>
           <button
-            v-for="t in (['dashboard', 'earnings', 'subscriptions', 'spending'] as const)"
-            :key="t"
-            role="tab"
-            :aria-selected="tab === t"
-            @click="tab = t"
-            :class="[
-              'px-4 py-1.5 rounded-lg text-sm font-medium capitalize transition-colors',
-              tab === t ? 'bg-brand text-white' : 'text-dark/40 hover:text-dark hover:bg-dark/5',
-            ]"
+            @click="logout"
+            class="flex items-center gap-1.5 text-dark/40 hover:text-brand transition-colors px-2 py-1.5 rounded-lg"
+            aria-label="Log out"
           >
-            {{ t }}
+            <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/>
+            </svg>
+            <span class="hidden md:inline text-sm font-medium">Log out</span>
           </button>
-        </nav>
+        </div>
       </div>
     </header>
 

@@ -28,3 +28,19 @@ export interface Summary {
   total_spending: number
   net: number
 }
+
+export interface User {
+  id: string
+  email: string
+  username: string | null
+}
+
+export interface AuthTokens {
+  access_token: string
+  refresh_token: string
+}
+
+/* Login/register both return tokens; register/login also return the user. */
+export interface AuthResponse extends AuthTokens {
+  user: User
+}
